@@ -2,6 +2,8 @@ import { createQuestion, deleteQuestion, listQuestions, seedQuestions, resetQues
 import { DEFAULT_QUESTIONS } from '../../src/data/defaultQuestions.js';
 
 export async function questionsHandler(req, res) {
+  const id = req.params?.id || req.query?.id;
+
   try {
     if (req.method === 'GET') {
       const questions = await listQuestions();
@@ -11,6 +13,24 @@ export async function questionsHandler(req, res) {
     if (req.method === 'POST') {
       const question = await createQuestion(req.body);
       return res.status(201).json(question);
+    }
+
+    if (req.method === 'PUT') {
+      if (!id) {
+        return res.status(400).json({ error: 'Question id is required' });
+      }
+
+      const question = await updateQuestion(id, req.body);
+      return res.status(200).json(question);
+    }
+
+    if (req.method === 'DELETE') {
+      if (!id) {
+        return res.status(400).json({ error: 'Question id is required' });
+      }
+
+      await deleteQuestion(id);
+      return res.status(204).end();
     }
 
     return res.status(405).json({ error: 'Method not allowed' });

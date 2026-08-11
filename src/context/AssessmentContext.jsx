@@ -104,7 +104,7 @@ export const AssessmentProvider = ({ children }) => {
   };
 
   const updateQuestion = async (id, updatedQ) => {
-    const savedQuestion = await requestJson(`/questions/${id}`, {
+    const savedQuestion = await requestJson(`/questions?id=${encodeURIComponent(id)}`, {
       method: 'PUT',
       body: JSON.stringify(updatedQ)
     });
@@ -113,7 +113,7 @@ export const AssessmentProvider = ({ children }) => {
   };
 
   const deleteQuestion = async (id) => {
-    await requestJson(`/questions/${id}`, { method: 'DELETE' });
+    await requestJson(`/questions?id=${encodeURIComponent(id)}`, { method: 'DELETE' });
     setQuestions((prev) => prev.filter((q) => q.id !== id));
   };
 
@@ -127,7 +127,7 @@ export const AssessmentProvider = ({ children }) => {
   };
 
   const handleDeleteSubmission = async (id) => {
-    await requestJson(`/submissions/${id}`, { method: 'DELETE' });
+    await requestJson(`/submissions?id=${encodeURIComponent(id)}`, { method: 'DELETE' });
     setSubmissions((prev) => prev.filter((sub) => sub.id !== id));
   };
 

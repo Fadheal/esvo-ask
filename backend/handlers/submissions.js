@@ -1,6 +1,8 @@
 import { createSubmission, deleteSubmission, listSubmissions } from '../submissions.js';
 
 export async function submissionsHandler(req, res) {
+  const id = req.params?.id || req.query?.id;
+
   try {
     if (req.method === 'GET') {
       const submissions = await listSubmissions();
@@ -10,6 +12,15 @@ export async function submissionsHandler(req, res) {
     if (req.method === 'POST') {
       const submission = await createSubmission(req.body);
       return res.status(201).json(submission);
+    }
+
+    if (req.method === 'DELETE') {
+      if (!id) {
+        return res.status(400).json({ error: 'Submission id is required' });
+      }
+
+      await deleteSubmission(id);
+      return res.status(204).end();
     }
 
     return res.status(405).json({ error: 'Method not allowed' });
