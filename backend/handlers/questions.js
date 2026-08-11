@@ -21,7 +21,7 @@ export async function questionsHandler(req, res) {
 }
 
 export async function questionByIdHandler(req, res) {
-  const { id } = req.query;
+  const id = req.params?.id || req.query?.id;
   try {
     if (req.method === 'PUT') {
       const question = await updateQuestion(id, req.body);

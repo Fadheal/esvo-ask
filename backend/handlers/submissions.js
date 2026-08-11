@@ -20,7 +20,7 @@ export async function submissionsHandler(req, res) {
 }
 
 export async function submissionByIdHandler(req, res) {
-  const { id } = req.query;
+  const id = req.params?.id || req.query?.id;
   try {
     if (req.method === 'DELETE') {
       await deleteSubmission(id);

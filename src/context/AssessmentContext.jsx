@@ -27,7 +27,7 @@ const requestJson = async (path, options = {}) => {
   }
 
   if (!response.ok) {
-    const errorMessage = typeof data === 'string' ? data : data?.error || 'Request failed';
+    const errorMessage = typeof data === 'string' ? data : data?.error || `Request failed (${response.status})`;
     throw new Error(errorMessage);
   }
 
