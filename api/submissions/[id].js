@@ -1,3 +1,4 @@
+import { eq } from 'drizzle-orm';
 import { db } from '../db.js';
 import * as schema from '../../src/db/schema.js';
 
@@ -6,7 +7,7 @@ export default async function handler(req, res) {
 
   try {
     if (req.method === 'DELETE') {
-      await db.delete(schema.submissions).where(schema.submissions.id.eq(id));
+      await db.delete(schema.submissions).where(eq(schema.submissions.id, id));
       return res.status(204).end();
     }
 
